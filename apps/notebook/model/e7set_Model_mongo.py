@@ -3,7 +3,7 @@ import pymongo
 
 # 获取集合
 def get_collection():
-    client = pymongo.MongoClient('47.106.154.216', 27017)
+    client = pymongo.MongoClient('', 27017)
     db = client.ep7
     news_set = db.ep7_news_set
     return news_set
