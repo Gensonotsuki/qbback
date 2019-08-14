@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block title %}
+    {{ flag }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header container" style="width: 300px">
+            <form class="form-horizontal" action="" method="post" novalidate>
+             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                {% for x in form %}
+                    <p>
+                        {{ x.label }}
+                        {{ x }}
+                        {{ x.errors[0] }}
+                    </p>
+                {% endfor %}
+                <input type="submit" value="{{ flag }}" class="btn-success form-control" >
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

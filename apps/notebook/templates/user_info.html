@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+{% block title %}
+    {{ flag }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if flag=='个人中心' %}
+
+
+
+            <div class="page-header">
+            {% if user.yearmonth %}
+                <div class="page-header"><h1>{{ user.yearmonth[-1].year }}{{ user.yearmonth[-1].days[-1].day }}消费记录</h1></div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>{{ user.yearmonth[-1].year }}<br><span><a href="#">{{ user.yearmonth[-1].days[-2].day }}</a></span>&nbsp;&nbsp;&nbsp;&nbsp;{{ user.yearmonth[-1].days[-1].day }}</th>
+                        <th>花费</th>
+                    </tr>
+                    </thead>
+                    {% for todo in user.yearmonth[-1].days[-1].todosth %}
+
+                        <tr>
+                            <th><a href="#">{{ todo.todo }} </a></th>
+                            <th>{{ todo.cost }}</th>
+                        </tr>
+
+                    {% endfor %}
+                    <th style="color: red">总计</th>
+                    <th>{{ total }}</th>
+                </table>
+                <div class="text-center">
+                    <a href="{{ url_for('main.recode') }}">
+                        <button class="btn-info"><h3>点击查看更多当月记录</h3></button>
+                    </a>
+                </div>
+            {% else %}
+                <div><a href="#">近日没有记录,赶紧记录今天的吧</a></div>
+            {% endif %}
+        {% else %}
+
+            <div class="page-header"><h1>{{ user.username }}当月消费记录</h1></div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>{{ user.yearmonth[-1].year }}</th>
+                    <th>花费</th>
+                </tr>
+                </thead>
+                {% for day,value  in tododict.items() %}
+                    <tr>
+                        <th><a href="#" style="color: black">{{ day }}</a></th>
+                        <th>{{ value }}</th>
+                    </tr>
+                {% endfor %}
+                <th style="color: red">总计</th>
+                <th style="color: red">{{ total }}</th>
+            </table>
+        {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

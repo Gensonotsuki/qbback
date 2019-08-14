@@ -1,0 +1,76 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#</head>#}
+{#<body>#}
+{#<form class="form-horizontal" action="" method="post" novalidate>#}
+{#    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>#}
+{#    {% for foo in form %}#}
+{#        {{ foo.label }}#}
+{#        {{ foo }}#}
+{#        {{ foo.errors[0] }}#}
+{#    {% endfor %}#}
+{##}
+{#    <input type="submit" value="{{ flag }}" class="btn-success form-control"/>#}
+{#</form>#}
+{##}
+{##}
+{#</body>#}
+{#</html>#}
+<script type="text/javascript">
+    $('table').bind('paste', function (e) {
+        event.preventDefault(); //消除默认粘贴
+        //获取粘贴板数据
+        var data = null;
+        var clipboardData = window.clipboardData || e.originalEvent.clipboardData; // IE || chrome
+        data = clipboardData.getData('Text');
+        console.log(data.replace(/\t/g, '\\t').replace(/\n/g, '\\n')); //data转码
+        //解析数据
+        var arr = data.split('\n')
+            .filter(function (item) {    //兼容Excel行末\n，防止出现多余空行
+                return (item !== "")
+            }).map(function (item) {
+                return item.split("\t");
+            });
+        //输出至网页表格
+        var tab = this;  //表格DOM
+        var td = $(e.target).parents('td');
+        var startRow = td.parents('tr')[0].rowIndex;
+        var startCell = td[0].cellIndex;
+        var rows = tab.rows.length;  //总行数
+        for (var i = 0; i < arr.length && startRow + i < rows; i++) {
+            var cells = tab.rows[startRow + i].cells.length;  //该行总列数
+            for (var j = 0; j < arr[i].length && startCell + j < cells; j++) {
+                var cell = tab.rows[startRow + i].cells[startCell + j];
+                $(cell).find(':text').val(arr[i][j]);  //找到cell下的input:text，设置value
+            }
+        }
+    });
+</script>
+</head>
+<body>
+<div>使用 Ctrl + V 可粘贴预算数据到下表中</div>
+<table id="dgBudget" border="1">
+    <tr>
+        <th>科目名称</th>
+        <th>1月</th>
+        <th>2月</th>
+        <th>3月</th>
+        <th>4月</th>
+        <th>5月</th>
+        <th>6月</th>
+        <th>7月</th>
+        <th>8月</th>
+        <th>9月</th>
+        <th>10月</th>
+        <th>11月</th>
+        <th>12月</th>
+    </tr>
+    <tr>
+
+    </tr>
+</table>
+</body>
+</html>

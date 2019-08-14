@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    {% block topjs %}
+
+    {% endblock %}
+
+{% endblock %}
+
+{% block body %}
+
+    {% block navbar %}
+        <div class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        {% if user %}
+                            <li><a href="{{ url_for('name.nikename') }}">添加外号</a></li>
+                            <li><a href="{{ url_for('name.constellation') }}">添加星座</a></li>
+                            <li><a href="#}">添加英雄</a></li>
+                        {% else %}
+                            <li><a href="#}">待定</a></li>
+                            <li><a href="#}">待定</a></li>
+                            <li><a href="#}">待定</a></li>
+                        {% endif %}
+
+                    </ul>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        {% block user %}
+                            {% if user %}
+                                <li><a href="#">{{ user }}</a></li>
+                                <li><a href="{{ url_for('usermsg.logout') }}">注销</a></li>
+                            {% else %}
+                                <li><a href="{{ url_for('usermsg.login') }}">登录</a></li>
+                                <li><a href="{{ url_for('usermsg.regist') }}">注册</a></li>
+                            {% endif %}
+                        {% endblock %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block content %}
+
+        <div class="row">
+            <div class="col-lg-2"></div>
+            {#昵称管理#}
+            <div class="col-lg-5">
+                <div class="row">
+                    <h1>昵称管理</h1>
+                    {# 查看最近添加 #}
+                    <div class="col-lg-4">
+                        <h4>最近添加</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>外号</th>
+                                <th>原名</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for nic in nice %}
+                                <tr>
+                                    <th>{{ nic.nicename }}</th>
+                                    <th>{{ nic.heros.heroname }}</th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {# 添加新的 #}
+
+                        <div class="col-lg-4">
+                            <h4>添加外号</h4>
+                            <form class="form-horizontal" action="" method="post" novalidate style="width: 150px">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                {% for foo in form %}
+                                    {{ foo.label }}
+                                    {{ foo }}
+                                    {{ foo.errors[0] }}
+                                {% endfor %}
+                                <input type="submit" value="添加昵称" class="btn-success form-control">
+
+                            </form>
+                        </div>
+
+                    {# 查看已有的 #}
+                    <div class="col-lg-4">
+                        <h4>查看外号</h4>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <h1>公告</h1>
+                {% for news in news |sort(attribute='article_id', reverse =False) %}
+
+                    <p>
+                        <a href="{{ news.url }}" style="text-decoration: none">
+                            {{ news.article_title }}</a>
+                        ---{{ news.up_time }}更新</p>
+
+                {% endfor %}
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="row">
+
+            <div class="col-lg-2"></div>
+            <div class="col-lg-5">
+                <h1>催化剂相关</h1>
+            </div>
+            <div class="col-lg-5">待定</div>
+        </div>
+
+
+    {% endblock %}
+
+{% endblock %}
