@@ -10,7 +10,7 @@ def get_path():
 
 
 class BaseCfg():
-    SECRET_KEY = 'Kurohane'  # 设置密钥...最好是个固定字符串
+    SECRET_KEY = ''  # 设置密钥...最好是个固定字符串
     SESSION_TYPE = 'redis'  # 设置session的类型为Redis
     SESSION_PERMANENT = True  # 关闭浏览器session不过期,默认过期时间为一个月....
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
@@ -22,8 +22,8 @@ class BaseCfg():
     # SQLALCHEMY_BINDS = {'e7db': f'sqlite:///{get_path()}/e7db.sqlite',
     #                     'user': f'sqlite:///{get_path()}/user.sqlite',
     #                     }
-    SQLALCHEMY_BINDS = {'e7db': 'mysql+pymysql://root:WOrinima@47.106.154.216/e7db',
-                        'user': 'mysql+pymysql://root:WOrinima@47.106.154.216/psite',
+    SQLALCHEMY_BINDS = {'e7db': '',
+                        'user': '',
                         }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
